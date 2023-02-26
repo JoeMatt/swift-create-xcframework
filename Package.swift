@@ -78,13 +78,14 @@ let package = Package(
 
         .plugin(
             name: "CreateXCFrameworkPlugin",
-            capability: .command(
-                intent: .custom(verb: "generation",
-                                description: "Creates an XCFramework for multiple platforms at once for a Swift Pakage"),
-                permissions: [
-                    .writeToPackageDirectory(reason: "This command creates an XCFramework"),
-                ]
-            ),
+			capability: .buildTool(),
+//            capability: .command(
+//                intent: .custom(verb: "generation",
+//                                description: "Creates an XCFramework for multiple platforms at once for a Swift Pakage"),
+//                permissions: [
+//                    .writeToPackageDirectory(reason: "This command creates an XCFramework"),
+//                ]
+//            ),
             dependencies: [
                 "CreateXCFramework",
             ]

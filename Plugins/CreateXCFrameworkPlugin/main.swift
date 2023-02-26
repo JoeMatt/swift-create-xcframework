@@ -1,11 +1,25 @@
 import PackagePlugin
 import Foundation
 
+#if true
+@main
+struct CreateXCFrameworkPlugin: BuildToolPlugin {
+	func createBuildCommands(
+		context: PackagePlugin.PluginContext,
+		target: PackagePlugin.Target) async throws -> [PackagePlugin.Command] {
+			
+		}
+
+}
+#else
 @main
 struct CreateXCFrameworkPlugin: CommandPlugin {
 
-	func performCommand(context: PluginContext, arguments: [String]) throws {
-		let createXCFrameworkTool = try context.tool(named: "swift-create-xcframework")
+	func performCommand(
+		context: PluginContext,
+		arguments: [String]) async throws
+	{
+		let createXCFrameworkTool = try context.tool(named: "CreateXCFramework")
 		let createXCFrameworkExec = URL(fileURLWithPath: createXCFrameworkTool.path.string)
 
 		for target in context.package.targets {
@@ -21,11 +35,11 @@ struct CreateXCFrameworkPlugin: CommandPlugin {
 
 			if process.terminationReason == .exit && process.terminationStatus == 0 {
 				print("Formatted the source code in \(target.directory).")
-			}
-			else {
+			} else {
 				let problem = "\(process.terminationReason):\(process.terminationStatus)"
 				Diagnostics.error("swift-format invocation failed: \(problem)")
 			}
 		}
 	}
 }
+#endif
